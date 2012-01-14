@@ -25,7 +25,7 @@ module.exports = function (outerTimeout, errCb) {
                 if (errCb) errCb(err)
             };
         }
-        if (alive && timeout) {
+        else if (alive && timeout) {
             var err = new Error('timeout');
             var ito = setTimeout(function () {
                 alive = false;
@@ -50,6 +50,7 @@ module.exports = function (outerTimeout, errCb) {
     
     self.end = function () {
         alive = false;
+        clearTimeout(oto);
     };
     
     return self;

@@ -29,21 +29,33 @@ test('outer timeout', function (t) {
     }));
 });
 
-test('inner timeout', function (t) {
+test('inner timeout fail', function (t) {
     t.plan(1);
     var times = 0;
     var tt = toss(function (err) {
         if (++times === 1) {
             t.equal(err.toString(), 'Error: timeout');
         }
-        else {
-            t.end();
-        }
+        else t.end();
     });
     
-    busy(5, tt(function () {
+    busy(tt(5, function () {
         busy(tt(function () {
             tt.end();
+        }))
+    }));
+});
+
+test('inner timeout ok', function (t) {
+    var times = 0;
+    var tt = toss(function (err) {
+        t.fail(err);
+    });
+    
+    busy(tt(12, function () {
+        busy(tt(11, function () {
+            tt.end();
+            t.end();
         }))
     }));
 });
