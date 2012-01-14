@@ -15,7 +15,7 @@ test('errors', function (t) {
     }));
 });
 
-test('busy timeout', function (t) {
+test('outer timeout', function (t) {
     t.plan(1);
     var tt = toss(15, function (err) {
         t.equal(err.toString(), 'Error: timeout');
@@ -23,6 +23,25 @@ test('busy timeout', function (t) {
     });
     
     busy(tt(function () {
+        busy(tt(function () {
+            tt.end();
+        }))
+    }));
+});
+
+test('inner timeout', function (t) {
+    t.plan(1);
+    var times = 0;
+    var tt = toss(function (err) {
+        if (++times === 1) {
+            t.equal(err.toString(), 'Error: timeout');
+        }
+        else {
+            t.end();
+        }
+    });
+    
+    busy(5, tt(function () {
         busy(tt(function () {
             tt.end();
         }))
