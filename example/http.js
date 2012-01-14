@@ -11,21 +11,20 @@ function get (cb) {
     });
 }
 
-function ready () {
+var server = http.createServer(function (req, res) {
+    setTimeout(function () {
+        res.end('beeeeeeeeeeeeeeeeeeeeeeeeep');
+    }, 600);
+});
+
+server.listen(8800, function () {
     get(t(function () {
         get(t(function () {
             console.log('finished');
             t.end();
         }));
     }));
-}
-
-var server = http.createServer(function (req, res) {
-    setTimeout(function () {
-        res.end('beeeeeeeeeeeeeeeeeeeeeeeeep');
-    }, 600);
 });
-server.listen(8800, ready);
 
 setTimeout(function () {
     server.close();
