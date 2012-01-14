@@ -1,0 +1,41 @@
+{
+    "name" : "toss",
+    "description" : "abort groups of callbacks",
+    "version" : "0.0.0",
+    "repository" : {
+        "type" : "git",
+        "url" : "git://github.com/substack/node-toss.git"
+    },
+    "main" : "index.js",
+    "keywords" : [
+        "discard",
+        "transaction",
+        "async",
+        "flow",
+        "control",
+        "domains",
+        "timeout"
+    ],
+    "directories" : {
+        "lib" : ".",
+        "example" : "example",
+        "test" : "test"
+    },
+    "scripts" : {
+        "test" : "tap test/*.js"
+    },
+    "dependencies" : {
+    },
+    "devDependencies" : {
+        "tap" : "0.1.x"
+    },
+    "engines" : {
+        "node" : ">=0.4.0"
+    },
+    "license" : "MIT",
+    "author" : {
+        "name" : "James Halliday",
+        "email" : "mail@substack.net",
+        "url" : "http://substack.net"
+    }
+}

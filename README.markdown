@@ -1,7 +1,7 @@
 toss
 ====
 
-Discard groups of asynchronous transactions.
+Abort groups of callbacks.
 
 This is a handy module for cancelling nested asynchronous logic when some
 external event comes along like a timeout that should abort an entire
