@@ -2,7 +2,7 @@ var test = require('tap').test;
 var http = require('http');
 var toss = require('../');
 
-function withServer (cb) {
+function withServer (delay, cb) {
     var port = Math.floor(Math.random() * 5e5 + 1e4);
     var get = function (fn) {
         http.get({ port : port, path : '/' }, function (res) {
@@ -13,7 +13,7 @@ function withServer (cb) {
     var server = http.createServer(function (req, res) {
         setTimeout(function () {
             res.end('beeeeeeeeeeeeeeeeeeeeeeeeep');
-        }, 600);
+        }, delay);
     });
     server.listen(port, cb.bind(null, get));
     
@@ -21,15 +21,38 @@ function withServer (cb) {
 }
 
 test('http request timeout failure', function (t) {
+    t.plan(1);
+    
     var tt = toss(200, function (err) {
         t.ok(err);
         t.end();
     });
     
-    var server = withServer(function (get) {
+    var server = withServer(600, function (get) {
         get(tt(function () {
             get(tt(function () {
                 tt.end();
+            }));
+        }));
+    });
+    
+    t.on('end', function () {
+        server.close();
+    });
+});
+
+test('http request timeout success', function (t) {
+    t.plan(1);
+    var tt = toss(function (err) {
+        t.fail(err);
+    });
+    
+    var server = withServer(10, function (get) {
+        get(tt(function () {
+            get(tt(function () {
+                t.ok(true);
+                tt.end();
+                t.end();
             }));
         }));
     });
