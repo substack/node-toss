@@ -43,6 +43,11 @@ module.exports = function (outerTimeout, errCb) {
         }
     };
     
+    self.error = function (err) {
+        self.end();
+        if (errCb) errCb(err);
+    };
+    
     self.end = function () {
         alive = false;
     };
